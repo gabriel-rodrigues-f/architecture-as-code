@@ -1,0 +1,16 @@
+sequenceDiagram
+    actor       C   as Customer
+    participant SAP as SAP
+    participant EV  as Event Mesh
+    participant CI  as Cloud Integration
+
+    C   -->> SAP    : 1. Create Sales Order Event
+    SAP -->> EV     : 2. Publish Sales Order Event
+    EV  -->> CI     : 3. Subscribe to Sales Order Event
+    loop
+        CI  -->> SAP    : 4. Process Sales Order Itens
+    end
+    SAP -->> CI     : 5. Acknowledge Order Processing
+    CI  -->> EV     : 6. Notify Event Subscription Successful
+    EV  -->> SAP    : 7. Confirm Event Subscription
+    SAP -->> C      : 8. Confirm Sales Order Creation
